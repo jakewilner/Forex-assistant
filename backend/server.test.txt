@@ -1,0 +1,222 @@
+//import app from './app'
+//import supertest from 'supertest'
+//import test from 'node:test';
+
+const getFirstAlbumTitle = require("./index");
+const axios = require("axios")
+
+jest.mock("axios")
+
+const IR_Expected = {
+    Australia: 3.75,
+    Canada: 3,
+    Germany: 0,
+    'European Union': 0,
+    France: 0,
+    Italy: 0,
+    Japan: --.1,
+    'New Zealand': 4.25,
+    Russia: 7.5,
+    Switzerland: 1,
+    'United States': 3.75
+}
+
+const INTEREST_RATE_DATA = {
+    Australia: 3.75,
+    Canada: 3,
+    Germany: 0,
+    'European Union': 0,
+    France: 0,
+    Italy: 0,
+    Japan: --.1,
+    'New Zealand': 4.25,
+    Russia: 7.5,
+    Switzerland: 1,
+    'United States': 3.75
+},
+NASDAQ_COUNTRY_CODES = {
+    Australia: 'AUS',
+    Canada: 'CAN',
+    Germany: 'DEU',
+    'European Union': 'EUR',
+    France: 'FRA',
+    Italy: 'ITA',
+    Japan: 'JPN',
+    'New Zealand': 'NZL',
+    Russia: 'RUS',
+    Switzerland: 'CHE',
+    'United States': 'USA'
+},
+CORRUPTION_DATA = {
+    Australia: 73,
+    Canada: 74,
+    Germany: 80,
+    'European Union': 70,
+    France: 71,
+    Italy: 56,
+    Japan: 73,
+    'New Zealand': 88,
+    Russia: 29,
+    Switzerland: 84,
+    'United States': 67
+},
+FOOD_DEPENDENCY_DATA = {
+    Australia: 75.4,
+    Canada: 79.1,
+    Germany: 77,
+    'European Union': 75,
+    France: 80.2,
+    Italy: 75,
+    Japan: 79.5,
+    'New Zealand': 77.8,
+    Russia: 69.1,
+    Switzerland: 78.2,
+    'United States': 78
+};
+
+
+test("mock test for interest rates calls AUS", async () => {
+    const mockUrl = `http://localhost:5000/inflation?currency=USA`;
+    const mockIR = 3.75;
+    const getInflation = jest.fn(url => 3.75);
+
+    expect(getInflation(mockUrl)).toBe(mockIR)
+    expect(getUsers).toHaveBeenCalledWith(mockURL)
+}) 
+
+test("mock test for interest rates calls EURO", async () => {
+    const mockUrl = `http://localhost:5000/inflation?currency=EURO`;
+    const mockIR = 2.5;
+    const getInflation = jest.fn(url => 2.5);
+
+    expect(getInflation(mockUrl)).toBe(mockInflation)
+    expect(getUsers).toHaveBeenCalledWith(mockIR)
+}) 
+
+test("mock test for inflation calls AUS", async () => {
+    const mockUrl = `http://localhost:5000/inflation?currency=USA`;
+    const mockInflation = 8.7;
+    const getInflation = jest.fn(url => 8.7);
+
+    expect(getInflation(mockUrl)).toBe(mockInflation)
+    expect(getUsers).toHaveBeenCalledWith(mockURL)
+}) 
+
+test("mock test for inflation calls Cananda", async () => {
+    const mockUrl = `http://localhost:5000/inflation?currency=CAN`;
+    const mockInflation = 6.9;
+    const getInflation = jest.fn(url => 6.9);
+
+    expect(getInflation(mockUrl)).toBe(mockInflation)
+    expect(getUsers).toHaveBeenCalledWith(mockURL)
+}) 
+
+test("mock test the inflation rate update function", async () => {
+    const mockUrl = `http://localhost:5000/inflation?currency=Euribor - 12 months`;
+    const mockInflation = {
+        "central_bank_rates": [],
+        "non_central_bank_rates": [
+          {
+            "name": "Euribor - 12 months",
+            "rate_pct": 2.993,
+            "last_updated": "12-16-2022"
+          }
+        ]
+      };
+    const getInflation = jest.fn(url => 6.9);
+
+    const mockUrl2= 'https://api.api-ninjas.com/v1/interestrate?name=DefaultCountry&central_bank_only=true'
+    const mockInlationRest = {
+        "central_bank_rates": [
+          {
+            "central_bank": "Australian RBA",
+            "country": "Australia",
+            "rate_pct": 3.1,
+            "last_updated": "12-06-2022"
+          }
+        ]
+      };
+    const getInflationRest = jest.fn(url => 1)
+
+
+    function updateInterestRates() {
+        const today = new Date();
+
+        Object.keys(INTEREST_RATE_DATA).forEach((country) => {
+            if (country === 'Japan') {
+                const month = today.getMonth() + 1;
+
+                INTEREST_RATE_DATA.Japan = [
+                    ...INTEREST_RATE_DATA.Japan.slice(1),
+                    { centralBank: 'Hardcoded', country: 'Japan', month: `${today.getFullYear()}-${month < 10 ? `0${month}` : month}`, value: -0.1 }
+                ];
+            } else if (country === 'European Union' || country === 'Germany' || country === 'France' || country === 'Italy') {
+                axios
+                    .getInflation(mockUrl)
+                    .then((res) => {
+                        const data = res.data.non_central_bank_rates[0];
+                        const [month, _, year] = data.last_updated.split('-');
+
+                        INTEREST_RATE_DATA[country] = [
+                            ...INTEREST_RATE_DATA[country].slice(1),
+                            { centralBank: data.central_bank, country: data.country, month: `${year}-${month}`, value: data.rate_pct }
+                        ];
+                    });
+            } else {
+
+
+                axios
+                    .getInflationRest(mockUrl2)
+                    .then((res) => {
+                        const data = res.data.central_bank_rates[0];
+                        const [month, _, year] = data.last_updated.split('-');
+
+                        INTEREST_RATE_DATA[country] = [
+                            ...INTEREST_RATE_DATA[country].slice(1),
+                            { centralBank: data.central_bank, country: data.country, month: `${year}-${month}`, value: data.rate_pct }
+                        ];
+                    });
+            }
+        });
+        const nextMonth = today.getMonth() === 11 ? new Date(today.getFullYear() + 1, 0, 1) : new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    }
+
+    updateInterestRates();
+
+    expect(INTEREST_RATE_DATA).toBe(IR_Expected)
+})
+
+
+
+
+test("inflation for AUS", async () => {
+
+    axios.get.mockResponsedValue({
+        data
+    })
+    const response = await request(app).post("/inflation").send({
+        country: "AUS"
+    })
+    expect(response.statusCode).toBe(200)
+})
+
+test("interest rates for AUS", async () => {
+    const response = await request(app).post("/interest-rates").send({
+        country: "AUS"
+    })
+    expect(response.statusCode).toBe(200)
+})
+
+test("interest rates for nonexistent country", async () => {
+    const response = await request(app).post("/interest-rates").send({
+        country: "Adfadfasf"
+    })
+    expect(response.statusCode).toBe(400)
+})
+
+test("inflation rates for nonexistent country", async () => {
+    const response = await request(app).post("/interest-rates").send({
+        country: "Adfadfasf"
+    })
+    expect(response.statusCode).toBe(400)
+})
