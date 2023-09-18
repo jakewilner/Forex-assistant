@@ -1,7 +1,3 @@
-# sprint-3-jcheng59-skim453
-jcheng59-skim453 team's sprint-3 repo
-# Sprint 3 - Command Terminal Webapp
-
 ### Project Description and Use Details:
 This project tracks data on various foreign exchange currencies, updated as reference APIs update. The site can be navigated through use of the navbar at the top, and currencies/metrics can be selected through the dropdown menus on the 'Currency' page. Data takes time to update, as it is pulled asynchronously.
 
