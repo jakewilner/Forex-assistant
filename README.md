@@ -3,7 +3,7 @@ This project tracks data on various foreign exchange currencies, updated as refe
 
 ### <b>Team Members and Contributions</b>:
 ### Main Team Members: 
-cnugye85, jwilner2, lli115, skim453
+Charles, Jake, Louis, Sam
 ### Contributors: None
 
 #### Resources:
