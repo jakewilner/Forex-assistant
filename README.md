@@ -13,9 +13,6 @@ https://react-chartjs-2.js.org
 https://react-select.com/home
 https://testing-library.com/docs/ecosystem-react-select-event/
 
-#### Link to GitHub Repository:
-https://github.com/cs0320-f2022/term-project-cnguye85-jwilner2-lli115-skim453
-
 ## Design Choices:
 
 #### Interface Elements:
