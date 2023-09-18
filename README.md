@@ -13,9 +13,6 @@ https://react-chartjs-2.js.org
 https://react-select.com/home
 https://testing-library.com/docs/ecosystem-react-select-event/
 
-#### Total Estimated Time:
-~160 hours (40 per member)
-
 #### Link to GitHub Repository:
 https://github.com/cs0320-f2022/term-project-cnguye85-jwilner2-lli115-skim453
 
@@ -27,7 +24,7 @@ https://github.com/cs0320-f2022/term-project-cnguye85-jwilner2-lli115-skim453
 ### Data Structure(s):
 - Front-end:
   - Uses the useMemo hook for currency data storage. This helps prevent unecessary API calls and ensures that the graphs/charts update when new data is provided.
-  - Uses axios for ease of handling promises. XXXXXXXXXXX
+  - Uses axios for ease of handling promises.
   - Stores color options in an array, so that highest-contrast colors can be used with the highest frequency.
 - Back-end:
   - Uses Node.js to handle endpoint request and responses.
@@ -37,34 +34,6 @@ https://github.com/cs0320-f2022/term-project-cnguye85-jwilner2-lli115-skim453
 ### Errors/Bugs:
 - Compatibility errors with testing library. Elaborated further in the testing section.
 - If a currency is selected, and then quickly de-selected before the data has loaded, the currency will still load into the graph/table.
-
-## Testing:
-We divided our testing into the following separate files:
-- In the frontend directory: App.test.js
-- In the backend directory: app.test.txt
-
-#### Front-end testing:
-- App render/Navbar:
-  - Tests that the App renders properly, that buttons and text content are present on the page.
-  - Checks that the pathname is correct, and that button presses change the pathname.
-  - Checks that all pages render default text content properly, and can be navigated to through the navbar.
-- Currency:
-  - Checks that the dropdown is functional and can have selections made.
-  - Confirms that page content updates as new options are selected.
-  - Confirms that multiple objects can be selected at once, and page content continues to update.
-
-
-#### Back-end testing:
-- testing the app
-  - Mocked responses using jest.mock and axios for the api calls to make sure that they were being called.
-  - Mocked api responses and data for updating the Interest rate data.
-  - Test that api calls we were and returning the correct code.
-
-
-### Steps Needs to Run the Integration and Unit Tests:
-<b>
-The way our testing library compiles is incompatible with something in our code. After extensive research and various attempts at fixing it, the problem remained unsolved.<br/><br/>
-</b>
 
 ### Build and Run Program:
 - Open terminal and navigate to the backend directory. 
